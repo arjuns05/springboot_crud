@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.time.Period;
+
 @Entity
 @Table (name = "student")
 public class Student {
@@ -21,6 +23,7 @@ public class Student {
     private Long id;
     private String name;
     private String email;
+    @Transient
     private Integer age;
     private LocalDate dob;
 
@@ -28,18 +31,19 @@ public class Student {
 
     }
 
-    public Student (Long id, String name, String email,  Integer age, LocalDate dob){
+    public Student (String name, String email,   LocalDate dob){
         this.name = name;
         this.email = email;
-        this.age = age;
+
         this.dob = dob;
     }
 
 
-    public Student (Long id, String name, Integer age, LocalDate dob){
+    public Student (Long id, String name, String email,  LocalDate dob){
         this.id = id;
         this.name = name;
-        this.age = age;
+        this.email = email;
+
         this.dob = dob;
     }
 
@@ -52,7 +56,7 @@ public class Student {
     }
 
     public Integer getAge() {
-        return age;
+        return Period.between(this.dob, LocalDate.now()).getYears();
     }
 
     public LocalDate getDob() {
